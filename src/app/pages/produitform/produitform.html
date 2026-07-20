@@ -1,105 +1,157 @@
-<main class="min-h-screen flex items-center justify-center px-4 py-8 bg-gradient-to-br from-gray-50 to-gray-100/80 font-sans text-gray-800">
+<main class="min-h-screen flex items-center justify-center px-4 py-10 bg-slate-50 font-sans text-slate-800 relative overflow-hidden">
 
-  <div class="w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 md:p-10 animate-slideUp">
+  <!-- ORBES DE FOND DYNAMIQUES -->
+  <div class="absolute -top-24 -left-24 w-96 h-96 bg-emerald-300/35 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute top-1/2 -right-24 w-96 h-96 bg-teal-200/40 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-24 left-1/3 w-96 h-96 bg-green-200/35 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- CONTAINER CARTE GLASS -->
+  <div class="relative z-10 w-full max-w-2xl bg-white/70 backdrop-blur-2xl rounded-3xl border border-white/90 p-8 md:p-10 shadow-2xl shadow-emerald-950/10">
 
     <!-- HEADER -->
     <div class="mb-8 text-center">
-      <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg mb-4">
-        <span class="text-3xl text-white">➕</span>
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-2xl shadow-lg shadow-emerald-600/25 mb-4 border border-emerald-400/30 text-white">
+        <!-- Icon: Package Plus / Pill (SVG) -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-8 h-8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
       </div>
-      <h1 class="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+
+      <h1 class="text-3xl font-extrabold bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-900 bg-clip-text text-transparent tracking-tight">
         Ajouter un produit
       </h1>
-      <p class="text-sm text-gray-500 mt-2 flex items-center justify-center gap-2">
-        <span class="inline-block w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-        Remplissez les informations du produit
+
+      <p class="text-xs font-semibold text-slate-500 mt-2 flex items-center justify-center gap-2">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </span>
+        Renseignez les détails de la référence médicale
       </p>
     </div>
 
     <!-- FORM -->
-    <form #productForm="ngForm" (ngSubmit)="submit()" class="space-y-5">
+    <form #productForm="ngForm" (ngSubmit)="submit()" class="space-y-6">
 
-      <!-- ROW: NAME + CATEGORY -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- NAME -->
+      <!-- ROW 1 : NOM & CATEGORIE -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+        <!-- NOM -->
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1.5">
-            Nom du produit <span class="text-red-500">*</span>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">
+            Nom du produit <span class="text-rose-500">*</span>
           </label>
-          <input
-            type="text"
-            [(ngModel)]="produit.name"
-            name="name"
-            required
-            minlength="2"
-            #nameInput="ngModel"
-            placeholder="Ex: Paracétamol 500mg"
-            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all duration-200 text-sm"
-            [class.border-red-400]="nameInput.invalid && nameInput.touched"
-          >
-          <p *ngIf="nameInput.invalid && nameInput.touched" class="text-xs text-red-500 mt-1">
+
+          <div class="relative">
+            <input
+              type="text"
+              [(ngModel)]="produit.name"
+              name="name"
+              required
+              minlength="2"
+              #nameInput="ngModel"
+              placeholder="Ex: Paracétamol 500mg"
+              class="w-full pl-11 pr-4 py-3.5 bg-white/80 border border-slate-200/80 rounded-2xl text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all duration-200 shadow-inner"
+              [class.border-rose-400]="nameInput.invalid && nameInput.touched"
+            >
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+              </svg>
+            </div>
+          </div>
+
+          <p *ngIf="nameInput.invalid && nameInput.touched" class="text-xs font-medium text-rose-500 mt-1.5 flex items-center gap-1">
             <span *ngIf="nameInput.errors?.['required']">Le nom est requis</span>
             <span *ngIf="nameInput.errors?.['minlength']">Minimum 2 caractères</span>
           </p>
         </div>
 
-        <!-- CATEGORY -->
+        <!-- CATEGORIE -->
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1.5">
-            Catégorie <span class="text-red-500">*</span>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">
+            Catégorie <span class="text-rose-500">*</span>
           </label>
-          <select
-            [(ngModel)]="produit.category"
-            name="category"
-            required
-            #categoryInput="ngModel"
-            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all duration-200 text-sm appearance-none"
-            [class.border-red-400]="categoryInput.invalid && categoryInput.touched"
-          >
-            <option value="" disabled>Sélectionnez une catégorie</option>
-            <option value="Médicaments">🦟 Antipaludiques</option>
-            <option value="Parapharmacie">🦠 Antibiotiques</option>
-            <option value="Hygiène">🌡️ Antipyrétiques / Antalgiques</option>
-            <option value="Cosmétique">🫁 Antitussifs / Respiratoires</option>
-            <option value="Autre">💓 Antihypertenseurs / Cardiovasculaires</option>
-          </select>
-          <p *ngIf="categoryInput.invalid && categoryInput.touched" class="text-xs text-red-500 mt-1">
+
+          <div class="relative">
+            <select
+              [(ngModel)]="produit.category"
+              name="category"
+              required
+              #categoryInput="ngModel"
+              class="w-full pl-11 pr-10 py-3.5 bg-white/80 border border-slate-200/80 rounded-2xl text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all duration-200 shadow-inner appearance-none cursor-pointer"
+              [class.border-rose-400]="categoryInput.invalid && categoryInput.touched"
+            >
+              <option value="" disabled selected class="text-slate-400">Sélectionnez une catégorie</option>
+              <option value="Médicaments" class="text-slate-800">Antipaludiques</option>
+              <option value="Parapharmacie" class="text-slate-800">Antibiotiques</option>
+              <option value="Hygiène" class="text-slate-800">Antipyrétiques / Antalgiques</option>
+              <option value="Cosmétique" class="text-slate-800">Antitussifs / Respiratoires</option>
+              <option value="Autre" class="text-slate-800">Antihypertenseurs / Cardiovasculaires</option>
+            </select>
+
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z" />
+              </svg>
+            </div>
+
+            <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+            </div>
+          </div>
+
+          <p *ngIf="categoryInput.invalid && categoryInput.touched" class="text-xs font-medium text-rose-500 mt-1.5">
             La catégorie est requise
           </p>
         </div>
+
       </div>
 
-      <!-- ROW: QUANTITY + PRICE -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- ROW 2 : QUANTITE & PRIX -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
         <!-- QUANTITE -->
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1.5">
-            Quantité <span class="text-red-500">*</span>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">
+            Quantité <span class="text-rose-500">*</span>
           </label>
-          <input
-            type="number"
-            [(ngModel)]="produit.quantite"
-            name="quantite"
-            required
-            min="0"
-            #quantiteInput="ngModel"
-            placeholder="0"
-            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all duration-200 text-sm"
-            [class.border-red-400]="quantiteInput.invalid && quantiteInput.touched"
-          >
-          <p *ngIf="quantiteInput.invalid && quantiteInput.touched" class="text-xs text-red-500 mt-1">
+
+          <div class="relative">
+            <input
+              type="number"
+              [(ngModel)]="produit.quantite"
+              name="quantite"
+              required
+              min="0"
+              #quantiteInput="ngModel"
+              placeholder="0"
+              class="w-full pl-11 pr-4 py-3.5 bg-white/80 border border-slate-200/80 rounded-2xl text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all duration-200 shadow-inner"
+              [class.border-rose-400]="quantiteInput.invalid && quantiteInput.touched"
+            >
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+              </svg>
+            </div>
+          </div>
+
+          <p *ngIf="quantiteInput.invalid && quantiteInput.touched" class="text-xs font-medium text-rose-500 mt-1.5">
             <span *ngIf="quantiteInput.errors?.['required']">La quantité est requise</span>
             <span *ngIf="quantiteInput.errors?.['min']">La quantité doit être ≥ 0</span>
           </p>
         </div>
 
-        <!-- PRICE -->
+        <!-- PRIX -->
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1.5">
-            Prix unitaire <span class="text-red-500">*</span>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">
+            Prix unitaire <span class="text-rose-500">*</span>
           </label>
+
           <div class="relative">
-            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-semibold">FC</span>
             <input
               type="number"
               [(ngModel)]="produit.price"
@@ -109,86 +161,131 @@
               step="0.01"
               #priceInput="ngModel"
               placeholder="0.00"
-              class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all duration-200 text-sm"
-              [class.border-red-400]="priceInput.invalid && priceInput.touched"
+              class="w-full pl-11 pr-12 py-3.5 bg-white/80 border border-slate-200/80 rounded-2xl text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all duration-200 shadow-inner"
+              [class.border-rose-400]="priceInput.invalid && priceInput.touched"
             >
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <span class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-xs font-bold text-slate-400">
+              FC
+            </span>
           </div>
-          <p *ngIf="priceInput.invalid && priceInput.touched" class="text-xs text-red-500 mt-1">
+
+          <p *ngIf="priceInput.invalid && priceInput.touched" class="text-xs font-medium text-rose-500 mt-1.5">
             <span *ngIf="priceInput.errors?.['required']">Le prix est requis</span>
             <span *ngIf="priceInput.errors?.['min']">Le prix doit être ≥ 0</span>
           </p>
         </div>
+
       </div>
 
-      <!-- ROW: EMPLACEMENT + DATE -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- ROW 3 : EMPLACEMENT & EXPIRATION -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
         <!-- EMPLACEMENT -->
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1.5">
-            Emplacement <span class="text-red-500">*</span>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">
+            Emplacement <span class="text-rose-500">*</span>
           </label>
-          <input
-            type="text"
-            [(ngModel)]="produit.emplacement"
-            name="emplacement"
-            required
-            #emplacementInput="ngModel"
-            placeholder="Ex: Rayon A3"
-            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all duration-200 text-sm"
-            [class.border-red-400]="emplacementInput.invalid && emplacementInput.touched"
-          >
-          <p *ngIf="emplacementInput.invalid && emplacementInput.touched" class="text-xs text-red-500 mt-1">
+
+          <div class="relative">
+            <input
+              type="text"
+              [(ngModel)]="produit.emplacement"
+              name="emplacement"
+              required
+              #emplacementInput="ngModel"
+              placeholder="Ex: Rayon A3"
+              class="w-full pl-11 pr-4 py-3.5 bg-white/80 border border-slate-200/80 rounded-2xl text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all duration-200 shadow-inner"
+              [class.border-rose-400]="emplacementInput.invalid && emplacementInput.touched"
+            >
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+              </svg>
+            </div>
+          </div>
+
+          <p *ngIf="emplacementInput.invalid && emplacementInput.touched" class="text-xs font-medium text-rose-500 mt-1.5">
             L'emplacement est requis
           </p>
         </div>
 
         <!-- DATE EXPIRATION -->
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1.5">
-            Date d'expiration <span class="text-red-500">*</span>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-2">
+            Date d'expiration <span class="text-rose-500">*</span>
           </label>
-          <input
-            type="date"
-            [(ngModel)]="produit.date_expiration"
-            name="date_expiration"
-            required
-            [min]="today"
-            #dateInput="ngModel"
-            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all duration-200 text-sm"
-            [class.border-red-400]="dateInput.invalid && dateInput.touched"
-          >
-          <p *ngIf="dateInput.invalid && dateInput.touched" class="text-xs text-red-500 mt-1">
+
+          <div class="relative">
+            <input
+              type="date"
+              [(ngModel)]="produit.date_expiration"
+              name="date_expiration"
+              required
+              [min]="today"
+              #dateInput="ngModel"
+              class="w-full pl-11 pr-4 py-3.5 bg-white/80 border border-slate-200/80 rounded-2xl text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all duration-200 shadow-inner"
+              [class.border-rose-400]="dateInput.invalid && dateInput.touched"
+            >
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+              </svg>
+            </div>
+          </div>
+
+          <p *ngIf="dateInput.invalid && dateInput.touched" class="text-xs font-medium text-rose-500 mt-1.5">
             <span *ngIf="dateInput.errors?.['required']">La date d'expiration est requise</span>
             <span *ngIf="dateInput.errors?.['min']">La date doit être dans le futur</span>
           </p>
         </div>
+
       </div>
 
       <!-- MESSAGE ERREUR -->
-      <div *ngIf="message" class="flex items-center gap-3 p-4 bg-red-50 border border-red-200 rounded-xl">
-        <span class="text-xl">⚠️</span>
-        <p class="text-sm text-red-600">{{ message }}</p>
+      <div *ngIf="message" class="flex items-center gap-3 p-4 bg-rose-50/80 border border-rose-200 rounded-2xl backdrop-blur-md">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5 text-rose-600 shrink-0">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+        </svg>
+        <p class="text-xs font-semibold text-rose-700">{{ message }}</p>
       </div>
 
       <!-- BUTTONS -->
-      <div class="flex flex-col sm:flex-row gap-3 pt-4">
+      <div class="flex flex-col-reverse sm:flex-row gap-3 pt-4">
+
+        <a
+          routerLink="/layout/produit"
+          class="flex-1 px-6 py-3.5 text-center bg-slate-100/80 hover:bg-slate-200/80 text-slate-700 rounded-2xl transition-all duration-150 font-bold text-sm flex items-center justify-center gap-2 active:scale-95"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+          Annuler
+        </a>
+
         <button
           type="submit"
           [disabled]="productForm.invalid || isLoading"
-          class="flex-1 bg-gradient-to-r from-green-600 to-green-700 text-white py-3.5 rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-200 shadow-md hover:shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          class="flex-1 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white py-3.5 rounded-2xl transition-all duration-200 shadow-lg shadow-emerald-600/25 hover:shadow-emerald-600/35 active:scale-95 font-bold text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed group"
         >
-          <span *ngIf="!isLoading">➕ Ajouter le produit</span>
-          <span *ngIf="isLoading" class="flex items-center gap-2">
-            <span class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+          <ng-container *ngIf="!isLoading">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke="currentColor" class="w-4 h-4 group-hover:scale-110 transition-transform">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            Ajouter le produit
+          </ng-container>
+
+          <ng-container *ngIf="isLoading">
+            <span class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
             Ajout en cours...
-          </span>
+          </ng-container>
         </button>
 
-        <a routerLink="/layout/produit"
-           class="px-6 py-3.5 text-center bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 text-sm font-medium text-gray-600 flex items-center justify-center gap-2">
-          <span>✕</span>
-          Annuler
-        </a>
       </div>
 
     </form>

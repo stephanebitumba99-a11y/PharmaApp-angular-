@@ -1,102 +1,126 @@
-<div class="flex min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+<div class="flex min-h-screen bg-slate-50 text-slate-800 relative overflow-hidden font-sans">
 
-  <!-- SIDEBAR -->
-  <aside class="w-72 bg-white border-r border-gray-200 flex flex-col shadow-2xl transition-all duration-300 ease-in-out">
+  <!-- ORBES DE FOND DYNAMIQUES -->
+  <div class="absolute -top-20 -left-20 w-96 h-96 bg-emerald-300/30 rounded-full blur-3xl pointer-events-none animate-blob"></div>
+  <div class="absolute top-1/2 -right-20 w-96 h-96 bg-teal-200/40 rounded-full blur-3xl pointer-events-none animate-blob animation-delay-2000"></div>
+  <div class="absolute -bottom-20 left-1/3 w-96 h-96 bg-green-200/30 rounded-full blur-3xl pointer-events-none animate-blob animation-delay-4000"></div>
+
+  <!-- SIDEBAR (Pro Glass Light) -->
+  <aside class="w-72 bg-white/60 backdrop-blur-2xl border-r border-white/80 flex flex-col shadow-xl shadow-emerald-950/5 relative z-20 transition-all duration-300">
 
     <!-- LOGO -->
-    <div class="p-6 border-b border-gray-100 bg-gradient-to-r from-green-50 to-white">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 bg-gradient-to-br from-green-600 to-green-700 rounded-xl flex items-center justify-center shadow-lg">
-          <span class="text-white text-xl font-bold">P</span>
+    <div class="p-6 border-b border-emerald-100/60 bg-gradient-to-r from-emerald-50/50 to-transparent">
+      <div class="flex items-center gap-3.5">
+        <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-600/20 text-white font-black text-xl tracking-wider">
+          P
         </div>
         <div>
-          <h1 class="text-2xl font-bold bg-gradient-to-r from-green-700 to-green-500 bg-clip-text text-transparent">PharmacyOS</h1>
-          <p class="text-xs text-gray-400 font-medium tracking-wider">SYSTÈME DE GESTION</p>
+          <h1 class="text-xl font-extrabold bg-gradient-to-r from-emerald-950 via-emerald-800 to-teal-800 bg-clip-text text-transparent tracking-tight">
+            Zarba Pharma
+          </h1>
+          <p class="text-[10px] text-emerald-800/60 font-bold tracking-widest uppercase">Système de Gestion</p>
         </div>
       </div>
     </div>
 
     <!-- NAV -->
     <nav class="flex-1 p-4 space-y-1.5 text-sm overflow-y-auto">
-      <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Menu principal</p>
+      <p class="px-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3">Menu principal</p>
 
       <a *ngFor="let item of menu"
          [routerLink]="item.link"
-         routerLinkActive="bg-gradient-to-r from-green-50 to-green-100 text-green-700 font-semibold shadow-sm border-r-4 border-green-600"
-         class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50 transition-all duration-200 group cursor-pointer">
+         routerLinkActive="bg-emerald-500/10 text-emerald-800 font-bold border-emerald-500/30 shadow-sm"
+         class="flex items-center gap-3.5 px-4 py-3 rounded-2xl text-slate-600 hover:bg-white/80 hover:text-emerald-900 border border-transparent transition-all duration-200 group cursor-pointer backdrop-blur-sm">
 
-        <!-- ICON -->
-        <span class="text-xl group-hover:scale-110 transition-transform duration-200">{{ item.icon }}</span>
+        <!-- ICON SVG DYNAMIQUE AVEC HOVER -->
+        <div class="w-5 h-5 flex items-center justify-center text-slate-400 group-hover:text-emerald-600 group-[.bg-emerald-500\/10]:text-emerald-600 transition-colors">
+          <!-- Fallback ou injection d'icône -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5 group-hover:scale-110 transition-transform">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+          </svg>
+        </div>
 
-        <span class="flex-1">{{ item.label }}</span>
+        <span class="flex-1 tracking-wide">{{ item.label }}</span>
 
         <!-- Active indicator -->
-        <span class="w-1.5 h-1.5 rounded-full bg-green-600 opacity-0 group-[.bg-green-100]:opacity-100 transition-opacity"></span>
+        <span class="w-2 h-2 rounded-full bg-emerald-500 opacity-0 group-[.bg-emerald-500\/10]:opacity-100 transition-opacity shadow-sm shadow-emerald-500/50"></span>
       </a>
 
-      <!-- Bottom section -->
-      <div class="mt-auto pt-4 border-t border-gray-100">
-        <div class="px-4 py-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl">
-          <p class="text-xs text-gray-600 font-medium">Version 2.4.0</p>
-          <p class="text-xs text-gray-400">Dernière mise à jour 2026</p>
+      <!-- Bottom Section -->
+      <div class="mt-auto pt-6 border-t border-slate-200/60">
+        <div class="px-4 py-3 bg-emerald-50/50 border border-emerald-100/80 rounded-2xl backdrop-blur-sm">
+          <p class="text-xs text-emerald-900 font-bold">Version 1.0.0</p>
+          <p class="text-[11px] text-slate-400 mt-0.5">Dernière mise à jour 2026</p>
         </div>
       </div>
     </nav>
 
   </aside>
 
-  <!-- MAIN -->
-  <div class="flex-1 flex flex-col min-w-0">
+  <!-- MAIN WRAPPER -->
+  <div class="flex-1 flex flex-col min-w-0 relative z-10">
 
-    <!-- TOPBAR -->
-    <header class="h-20 bg-white/80 backdrop-blur-md border-b border-gray-200 flex items-center px-8 shadow-sm sticky top-0 z-10">
-
-     
+    <!-- TOPBAR (Glass Clear) -->
+    <header class="h-20 bg-white/60 backdrop-blur-xl border-b border-white/80 flex items-center px-8 shadow-sm sticky top-0 z-20">
 
       <!-- ACTIONS -->
       <div class="flex items-center gap-4 ml-auto">
-        <!-- Notification -->
-        <button class="relative p-2 hover:bg-gray-100 rounded-full transition-colors duration-200">
-          <span class="text-xl">🔔</span>
-          <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+
+        <!-- NOTIFICATION BUTTON -->
+        <button class="relative p-2.5 bg-white/80 hover:bg-white text-slate-600 hover:text-emerald-700 rounded-2xl border border-slate-200/60 shadow-sm transition-all duration-200 active:scale-95 group">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5 group-hover:rotate-12 transition-transform">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+          </svg>
+          <span class="absolute top-2 right-2 w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-white"></span>
         </button>
 
-        <!-- USER -->
-        <div class="flex items-center gap-4 pl-4 border-l border-gray-200 relative">
+        <!-- USER SECTION -->
+        <div class="flex items-center gap-3.5 pl-4 border-l border-slate-200/60 relative">
 
-          <div class="text-right">
-            <span class="text-sm font-semibold text-gray-700 block">{{ user.name }}</span>
-            <span class="text-xs text-gray-400">Administrateur</span>
+          <div class="text-right hidden sm:block">
+            <span class="text-sm font-bold text-slate-800 block leading-tight">{{ user.name }}</span>
+            <span class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Administrateur</span>
           </div>
 
           <div (click)="toggleDropdown()"
-               class="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center cursor-pointer shadow-md hover:shadow-lg transition-all duration-200 text-white font-semibold text-sm">
+               class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-700 hover:from-emerald-600 hover:to-emerald-800 rounded-2xl flex items-center justify-center cursor-pointer shadow-md shadow-emerald-600/20 active:scale-95 transition-all duration-200 text-white font-bold text-xs border border-emerald-400/30">
             AD
           </div>
 
-          <!-- DROPDOWN -->
+          <!-- DROPDOWN (Pro Glass White) -->
           <div *ngIf="dropdownOpen"
-               class="absolute right-0 top-14 bg-white border border-gray-200 rounded-2xl shadow-2xl w-56 overflow-hidden animate-slideDown">
+               class="absolute right-0 top-14 bg-white/90 backdrop-blur-2xl border border-white/90 rounded-3xl shadow-2xl shadow-emerald-950/10 w-60 overflow-hidden animate-fade-in-down z-30">
 
-            <div class="px-4 py-3 bg-gradient-to-r from-green-50 to-white border-b border-gray-100">
-              <p class="text-sm font-semibold text-gray-700">{{ user.name }}</p>
-              <p class="text-xs text-gray-400">admin@pharmacyos.com</p>
+            <div class="px-5 py-4 bg-emerald-50/60 border-b border-emerald-100/60">
+              <p class="text-sm font-bold text-slate-800">{{ user.name }}</p>
+              <p class="text-xs text-slate-400 font-mono mt-0.5">admin@pharmacyos.com</p>
             </div>
 
-            <button class="w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors duration-150 flex items-center gap-3 text-sm">
-              <span>👤</span>
-              Mon profil
-            </button>
+            <div class="p-2 space-y-1">
+              <button class="w-full text-left px-3.5 py-2.5 hover:bg-emerald-50/80 rounded-2xl transition-colors duration-150 flex items-center gap-3 text-sm font-medium text-slate-700 hover:text-emerald-800">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-4 h-4 text-slate-400">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
+                Mon profil
+              </button>
 
-            <button class="w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors duration-150 flex items-center gap-3 text-sm">
-              <span>⚙️</span>
-              Paramètres
-            </button>
+              <button class="w-full text-left px-3.5 py-2.5 hover:bg-emerald-50/80 rounded-2xl transition-colors duration-150 flex items-center gap-3 text-sm font-medium text-slate-700 hover:text-emerald-800">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-4 h-4 text-slate-400">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                Paramètres
+              </button>
+            </div>
 
-            <button class="w-full text-left px-4 py-3 hover:bg-red-50 transition-colors duration-150 flex items-center gap-3 text-sm text-red-600 border-t border-gray-100">
-              <span>🚪</span>
-              Déconnexion
-            </button>
+            <div class="p-2 border-t border-slate-100">
+              <button class="w-full text-left px-3.5 py-2.5 hover:bg-rose-50 rounded-2xl transition-colors duration-150 flex items-center gap-3 text-sm font-semibold text-rose-600">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-4 h-4 text-rose-500">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                </svg>
+                Déconnexion
+              </button>
+            </div>
 
           </div>
 
@@ -106,8 +130,8 @@
 
     </header>
 
-    <!-- CONTENT -->
-    <main class="p-8 flex-1 overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100/50">
+    <!-- MAIN CONTENT AREA -->
+    <main class="p-8 flex-1 overflow-y-auto">
       <div class="max-w-7xl mx-auto">
         <router-outlet></router-outlet>
       </div>

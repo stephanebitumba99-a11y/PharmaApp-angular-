@@ -1,279 +1,382 @@
-<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100/80 text-gray-800 p-8 space-y-8">
+<main class="min-h-screen bg-slate-50 text-slate-800 p-6 md:p-10 space-y-8 relative overflow-hidden font-sans">
 
-  <!-- HEADER -->
-  <header class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+  <!-- ORBES DE FOND DYNAMIQUES -->
+  <div class="absolute -top-32 -left-32 w-96 h-96 bg-emerald-300/30 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute top-1/3 -right-32 w-96 h-96 bg-teal-200/35 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute -bottom-32 left-1/4 w-96 h-96 bg-green-200/30 rounded-full blur-3xl pointer-events-none"></div>
 
-    <div>
-      <div class="flex items-center gap-3">
-        <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg">
-          <span class="text-2xl text-white">💊</span>
+  <div class="relative z-10 max-w-7xl mx-auto space-y-8">
+
+    <!-- HEADER -->
+    <header class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 bg-white/60 backdrop-blur-xl p-6 rounded-3xl border border-white/80 shadow-xl shadow-emerald-950/5">
+
+      <div class="flex items-center gap-4">
+        <div class="w-14 h-14 bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-600/25 border border-emerald-400/30 text-white shrink-0">
+          <!-- Icon: Pill / Medical (SVG) -->
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-7 h-7">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0m-9.75 0h9.75" />
+          </svg>
         </div>
         <div>
-          <h1 class="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+          <h1 class="text-2xl md:text-3xl font-extrabold bg-gradient-to-r from-emerald-950 via-slate-900 to-emerald-900 bg-clip-text text-transparent tracking-tight">
             Nos produits
           </h1>
-          <p class="text-gray-500 text-sm flex items-center gap-2 mt-1">
-            <span class="inline-block w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-            Gestion des produits de la pharmacie
-            <span class="text-xs bg-gray-200 px-2 py-0.5 rounded-full">{{ filteredProduits().length }} produits</span>
+          <p class="text-xs font-semibold text-slate-500 flex items-center gap-2 mt-1">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            Gestion du catalogue pharmacie
+            <span class="bg-emerald-100/80 text-emerald-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-200/50">
+              {{ filteredProduits().length }} références
+            </span>
           </p>
         </div>
       </div>
-    </div>
 
-    <!-- SEARCH & ACTIONS -->
-    <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+      <!-- SEARCH & ACTIONS -->
+      <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
 
-      <!-- SEARCH -->
-      <div class="relative flex-1 lg:w-80">
-        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">🔍</span>
-        <input
-          type="text"
-          (input)="updateSearch($event)"
-          placeholder="Rechercher un produit..."
-          class="w-full pl-11 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all duration-200 text-sm shadow-sm"
-        />
-        <button *ngIf="search().length > 0" 
-                (click)="clearSearch()"
-                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors">
-          ✕
-        </button>
-      </div>
-
-      <!-- ACTIONS -->
-      <div class="flex gap-2">
-        <button routerLink="/produitform"
-                class="bg-gradient-to-r from-green-600 to-green-700 text-white px-5 py-2.5 rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2 whitespace-nowrap text-sm font-medium">
-          <span>➕</span>
-          Ajouter
-        </button>
-
-        <button class="bg-white border border-gray-200 px-4 py-2.5 rounded-xl hover:bg-gray-50 hover:shadow-md transition-all duration-200 flex items-center gap-2 text-sm font-medium text-gray-600">
-          <span>📥</span>
-          Export
-        </button>
-      </div>
-
-    </div>
-
-  </header>
-
-  <!-- STATS BAR -->
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-      <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Total</p>
-      <p class="text-2xl font-bold text-gray-800">{{ produits().length }}</p>
-    </div>
-    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-      <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">En stock</p>
-      <p class="text-2xl font-bold text-green-600">{{ getStockCount() }}</p>
-    </div>
-    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-      <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Stock faible</p>
-      <p class="text-2xl font-bold text-yellow-600">{{ getLowStockCount() }}</p>
-    </div>
-    <div class="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
-      <p class="text-xs text-gray-400 font-medium uppercase tracking-wider">Rupture</p>
-      <p class="text-2xl font-bold text-red-600">{{ getOutOfStockCount() }}</p>
-    </div>
-  </div>
-
-  <!-- TABLE CARD -->
-  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-
-    <!-- TABLE HEADER WITH FILTERS -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b border-gray-100 bg-gray-50/50">
-      <div class="flex items-center gap-3">
-        <span class="text-sm font-medium text-gray-600">📋 Liste des produits</span>
-        <span class="text-xs text-gray-400">|</span>
-        <span class="text-xs text-gray-400">{{ filteredProduits().length }} affichés</span>
-      </div>
-      <div class="flex items-center gap-2 mt-2 sm:mt-0">
-        <select class="text-sm border border-gray-200 rounded-lg px-3 py-1.5 bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none">
-          <option>Toutes les catégories</option>
-          <option>Médicaments</option>
-          <option>Parapharmacie</option>
-          <option>Hygiène</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="overflow-x-auto">
-      <table class="w-full text-sm">
-
-        <!-- HEADER -->
-        <thead class="bg-gray-50 text-gray-600 uppercase text-xs tracking-wider">
-          <tr>
-            <th class="p-4 text-left font-semibold">Produit</th>
-            <th class="p-4 text-left font-semibold">Catégorie</th>
-            <th class="p-4 text-left font-semibold">Prix</th>
-            <th class="p-4 text-left font-semibold">Emplacement</th>
-            <th class="p-4 text-center font-semibold">Quantité</th>
-            <th class="p-4 text-left font-semibold">Statut</th>
-            <th class="p-4 text-left font-semibold">Expiration</th>
-            <th class="p-4 text-center font-semibold">Actions</th>
-          </tr>
-        </thead>
-
-        <!-- BODY -->
-        <tbody>
-
-          <!-- Empty State -->
-          <tr *ngIf="filteredProduits().length === 0">
-            <td colspan="8" class="p-12 text-center">
-              <div class="flex flex-col items-center gap-3">
-                <span class="text-6xl">🔍</span>
-                <p class="text-gray-500 font-medium">Aucun produit trouvé</p>
-                <p class="text-sm text-gray-400">Essayez de modifier votre recherche</p>
-              </div>
-            </td>
-          </tr>
-
-          <tr
-            *ngFor="let p of filteredProduits()"
-            class="border-t border-gray-50 hover:bg-green-50/30 transition-all duration-150 group"
+        <!-- SEARCH INPUT -->
+        <div class="relative flex-1 lg:w-80">
+          <input
+            type="text"
+            (input)="updateSearch($event)"
+            placeholder="Rechercher un produit..."
+            class="w-full pl-11 pr-10 py-3 bg-white/80 border border-slate-200/80 rounded-2xl text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 transition-all duration-200 shadow-inner"
+          />
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+          </div>
+          <button 
+            *ngIf="search().length > 0" 
+            (click)="clearSearch()"
+            class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
 
-            <!-- NOM -->
-            <td class="p-4">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center text-lg group-hover:scale-110 transition-transform duration-200">
-                  💊
-                </div>
-                <div>
-                  <p class="font-medium text-gray-800">{{ p.name }}</p>
-                  <p class="text-xs text-gray-400">Ref: {{ p.reference || 'N/A' }}</p>
-                </div>
-              </div>
-            </td>
+        <!-- ACTIONS -->
+        <div class="flex gap-2.5">
+          <button 
+            routerLink="/produitform"
+            class="flex-1 sm:flex-none bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white px-5 py-3 rounded-2xl transition-all duration-200 shadow-lg shadow-emerald-600/25 hover:shadow-emerald-600/35 active:scale-95 flex items-center justify-center gap-2 text-sm font-bold whitespace-nowrap group"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke="currentColor" class="w-4 h-4 group-hover:scale-110 transition-transform">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            Ajouter
+          </button>
 
-            <!-- CATEGORIE -->
-            <td class="p-4">
-              <span class="px-3 py-1 bg-gray-100 rounded-full text-xs font-medium text-gray-600">
-                {{ p.category }}
-              </span>
-            </td>
+          <button class="bg-white/80 border border-slate-200/80 px-4 py-3 rounded-2xl hover:bg-slate-100/80 transition-all duration-150 flex items-center justify-center gap-2 text-sm font-bold text-slate-700 shadow-sm active:scale-95">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-4 h-4 text-slate-500">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+            </svg>
+            Export
+          </button>
+        </div>
 
-            <!-- PRIX -->
-            <td class="p-4 font-semibold text-gray-700">
-              {{ formatNumber(p.price) }} <span class="text-xs text-gray-400">FC</span>
-            </td>
+      </div>
 
-            <!-- EMPLACEMENT -->
-            <td class="p-4 text-gray-600 text-sm">
-              <span class="flex items-center gap-1">
-                📍 {{ p.Emplacement }}
-              </span>
-            </td>
+    </header>
 
-            <!-- QUANTITE -->
-            <td class="p-4 text-center">
-              <span class="inline-flex items-center justify-center min-w-[40px] px-2 py-1 rounded-lg font-bold text-sm"
-                    [ngClass]="{
-                      'bg-red-100 text-red-700': p.quantite === 0,
-                      'bg-yellow-100 text-yellow-700': p.quantite > 0 && p.quantite < 10,
-                      'bg-green-100 text-green-700': p.quantite >= 10
-                    }">
-                {{ p.quantite }}
-              </span>
-            </td>
+    <!-- STATS BAR -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      
+      <!-- TOTAL -->
+      <div class="bg-white/70 backdrop-blur-xl rounded-3xl p-5 border border-white/90 shadow-xl shadow-emerald-950/5 flex items-center justify-between">
+        <div>
+          <p class="text-[11px] text-slate-400 font-bold uppercase tracking-wider">Total Produits</p>
+          <p class="text-2xl md:text-3xl font-extrabold text-slate-800 mt-1">{{ produits().length }}</p>
+        </div>
+        <div class="w-10 h-10 rounded-2xl bg-slate-100 text-slate-600 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+          </svg>
+        </div>
+      </div>
 
-            <!-- STATUT -->
-            <td class="p-4">
-              <span
-                class="px-3 py-1.5 text-xs font-semibold rounded-full"
-                [ngClass]="{
-                  'bg-red-100 text-red-700': p.quantite === 0,
-                  'bg-yellow-100 text-yellow-700': p.quantite > 0 && p.quantite < 10,
-                  'bg-green-100 text-green-700': p.quantite >= 10
-                }"
-              >
-                <span class="inline-block w-1.5 h-1.5 rounded-full mr-1.5"
-                      [ngClass]="{
-                        'bg-red-500': p.quantite === 0,
-                        'bg-yellow-500': p.quantite > 0 && p.quantite < 10,
-                        'bg-green-500': p.quantite >= 10
-                      }">
-                </span>
-                {{
-                  p.quantite === 0
-                    ? 'RUPTURE'
-                    : p.quantite < 10
-                    ? 'FAIBLE'
-                    : 'OK'
-                }}
-              </span>
-            </td>
+      <!-- EN STOCK -->
+      <div class="bg-white/70 backdrop-blur-xl rounded-3xl p-5 border border-white/90 shadow-xl shadow-emerald-950/5 flex items-center justify-between">
+        <div>
+          <p class="text-[11px] text-emerald-600 font-bold uppercase tracking-wider">En stock</p>
+          <p class="text-2xl md:text-3xl font-extrabold text-emerald-600 mt-1">{{ getStockCount() }}</p>
+        </div>
+        <div class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+          </svg>
+        </div>
+      </div>
 
-            <!-- EXPIRATION -->
-            <td class="p-4">
-              <span
-                class="px-3 py-1.5 text-xs font-semibold rounded-full"
-                [ngClass]="{
-                  'bg-red-100 text-red-700': isExpiringSoon(p.date_expiration),
-                  'bg-green-100 text-green-700': !isExpiringSoon(p.date_expiration) && p.date_expiration,
-                  'bg-gray-100 text-gray-400': !p.date_expiration
-                }"
-              >
-                {{
-                  isExpiringSoon(p.date_expiration)
-                    ? '⚠️ EXPIRATION'
-                    : p.date_expiration 
-                    ? (p.date_expiration | date:'dd/MM/yyyy')
-                    : 'N/A'
-                }}
-              </span>
-            </td>
+      <!-- STOCK FAIBLE -->
+      <div class="bg-white/70 backdrop-blur-xl rounded-3xl p-5 border border-white/90 shadow-xl shadow-emerald-950/5 flex items-center justify-between">
+        <div>
+          <p class="text-[11px] text-amber-600 font-bold uppercase tracking-wider">Stock faible</p>
+          <p class="text-2xl md:text-3xl font-extrabold text-amber-600 mt-1">{{ getLowStockCount() }}</p>
+        </div>
+        <div class="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+          </svg>
+        </div>
+      </div>
 
-            <!-- ACTIONS -->
-            <td class="p-4 text-center">
-              <div class="flex items-center justify-center gap-1">
-                <button class="p-1.5 hover:bg-blue-50 rounded-lg transition-colors text-blue-600" title="Modifier">
-                  ✏️
-                </button>
-                <button class="p-1.5 hover:bg-red-50 rounded-lg transition-colors text-red-600" title="Supprimer">
-                  🗑️
-                </button>
-              </div>
-            </td>
+      <!-- RUPTURE -->
+      <div class="bg-white/70 backdrop-blur-xl rounded-3xl p-5 border border-white/90 shadow-xl shadow-emerald-950/5 flex items-center justify-between">
+        <div>
+          <p class="text-[11px] text-rose-600 font-bold uppercase tracking-wider">Rupture</p>
+          <p class="text-2xl md:text-3xl font-extrabold text-rose-600 mt-1">{{ getOutOfStockCount() }}</p>
+        </div>
+        <div class="w-10 h-10 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+      </div>
 
-          </tr>
-
-        </tbody>
-
-      </table>
     </div>
 
-    <!-- TABLE FOOTER -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-t border-gray-100 bg-gray-50/50 text-xs text-gray-500">
-      <div>
-        Affichage de {{ filteredProduits().length }} produit{{ filteredProduits().length > 1 ? 's' : '' }}
+    <!-- TABLE CARD -->
+    <div class="bg-white/70 backdrop-blur-2xl rounded-3xl border border-white/90 shadow-2xl shadow-emerald-950/10 overflow-hidden">
+
+      <!-- TABLE HEADER WITH FILTERS -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between p-5 border-b border-slate-200/60 bg-white/40">
+        <div class="flex items-center gap-3">
+          <div class="p-2 bg-emerald-100/60 text-emerald-800 rounded-xl">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm0 5.25h.007v.008H3.75V12zm0 5.25h.007v.008H3.75v-.008z" />
+            </svg>
+          </div>
+          <span class="text-sm font-bold text-slate-800">Liste des produits</span>
+          <span class="text-slate-300">|</span>
+          <span class="text-xs font-semibold text-slate-500">{{ filteredProduits().length }} affichés</span>
+        </div>
+
+        <div class="flex items-center gap-2 mt-3 sm:mt-0">
+          <div class="relative">
+            <select class="text-xs font-semibold border border-slate-200/80 rounded-xl pl-3 pr-8 py-2 bg-white/80 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 appearance-none cursor-pointer text-slate-700">
+              <option>Toutes les catégories</option>
+              <option>Médicaments</option>
+              <option>Parapharmacie</option>
+              <option>Hygiène</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none text-slate-400">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
-<div class="flex items-center gap-2 mt-2 sm:mt-0">
 
-  <button
-    (click)="prevPage()"
-    class="px-3 py-1 bg-white border rounded-lg hover:bg-gray-50 transition"
-    [disabled]="currentPage() === 1"
-  >
-    ←
-  </button>
+      <!-- TABLE CONTENT -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left">
 
-  <span class="px-3 py-1 bg-green-600 text-white rounded-lg">
-    {{ currentPage() }} / {{ totalPages() }}
-  </span>
+          <!-- HEADER -->
+          <thead class="bg-slate-100/60 text-slate-500 uppercase text-[10px] font-bold tracking-wider border-b border-slate-200/60">
+            <tr>
+              <th class="p-4 pl-6">Produit</th>
+              <th class="p-4">Catégorie</th>
+              <th class="p-4">Prix</th>
+              <th class="p-4">Emplacement</th>
+              <th class="p-4 text-center">Quantité</th>
+              <th class="p-4">Statut</th>
+              <th class="p-4">Expiration</th>
+              <th class="p-4 pr-6 text-center">Actions</th>
+            </tr>
+          </thead>
 
-  <button
-    (click)="nextPage()"
-    class="px-3 py-1 bg-white border rounded-lg hover:bg-gray-50 transition"
-    [disabled]="currentPage() === totalPages()"
-  >
-    →
-  </button>
+          <!-- BODY -->
+          <tbody class="divide-y divide-slate-100">
 
-</div>
+            <!-- Empty State -->
+            <tr *ngIf="filteredProduits().length === 0">
+              <td colspan="8" class="p-12 text-center">
+                <div class="flex flex-col items-center gap-3">
+                  <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                    </svg>
+                  </div>
+                  <p class="text-slate-700 font-bold text-base">Aucun produit trouvé</p>
+                  <p class="text-xs text-slate-400">Essayez de modifier votre recherche ou vos filtres</p>
+                </div>
+              </td>
+            </tr>
+
+            <!-- ROW ITEM -->
+            <tr
+              *ngFor="let p of filteredProduits()"
+              class="hover:bg-emerald-50/40 transition-colors duration-150 group"
+            >
+
+              <!-- NOM -->
+              <td class="p-4 pl-6">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 bg-emerald-100/60 border border-emerald-200/50 rounded-xl flex items-center justify-center text-emerald-700 group-hover:scale-105 transition-transform duration-200 shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-5 h-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="font-bold text-slate-800 text-sm leading-tight">{{ p.name }}</p>
+                    <p class="text-xs font-medium text-slate-400 mt-0.5">Ref: {{ p.reference || 'N/A' }}</p>
+                  </div>
+                </div>
+              </td>
+
+              <!-- CATEGORIE -->
+              <td class="p-4">
+                <span class="px-3 py-1 bg-slate-100/80 border border-slate-200/60 rounded-full text-xs font-semibold text-slate-600">
+                  {{ p.category }}
+                </span>
+              </td>
+
+              <!-- PRIX -->
+              <td class="p-4 font-bold text-slate-800">
+                {{ formatNumber(p.price) }} <span class="text-[10px] font-semibold text-slate-400">FC</span>
+              </td>
+
+              <!-- EMPLACEMENT -->
+              <td class="p-4 text-slate-600 text-xs font-semibold">
+                <span class="inline-flex items-center gap-1.5 text-slate-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-4 h-4 text-slate-400">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                  </svg>
+                  {{ p.Emplacement }}
+                </span>
+              </td>
+
+              <!-- QUANTITE -->
+              <td class="p-4 text-center">
+                <span 
+                  class="inline-flex items-center justify-center min-w-[36px] px-2.5 py-1 rounded-xl font-extrabold text-xs"
+                  [ngClass]="{
+                    'bg-rose-100/80 text-rose-700 border border-rose-200': p.quantite === 0,
+                    'bg-amber-100/80 text-amber-800 border border-amber-200': p.quantite > 0 && p.quantite < 10,
+                    'bg-emerald-100/80 text-emerald-800 border border-emerald-200': p.quantite >= 10
+                  }">
+                  {{ p.quantite }}
+                </span>
+              </td>
+
+              <!-- STATUT -->
+              <td class="p-4">
+                <span
+                  class="inline-flex items-center px-3 py-1 text-[11px] font-bold rounded-full"
+                  [ngClass]="{
+                    'bg-rose-50 text-rose-700 border border-rose-200': p.quantite === 0,
+                    'bg-amber-50 text-amber-700 border border-amber-200': p.quantite > 0 && p.quantite < 10,
+                    'bg-emerald-50 text-emerald-700 border border-emerald-200': p.quantite >= 10
+                  }"
+                >
+                  <span 
+                    class="w-1.5 h-1.5 rounded-full mr-2"
+                    [ngClass]="{
+                      'bg-rose-500 animate-pulse': p.quantite === 0,
+                      'bg-amber-500': p.quantite > 0 && p.quantite < 10,
+                      'bg-emerald-500': p.quantite >= 10
+                    }">
+                  </span>
+                  {{
+                    p.quantite === 0
+                      ? 'RUPTURE'
+                      : p.quantite < 10
+                      ? 'FAIBLE'
+                      : 'EN STOCK'
+                  }}
+                </span>
+              </td>
+
+              <!-- EXPIRATION -->
+              <td class="p-4">
+                <span
+                  class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full"
+                  [ngClass]="{
+                    'bg-rose-100/80 text-rose-700 border border-rose-200': isExpiringSoon(p.date_expiration),
+                    'bg-emerald-50 text-emerald-700 border border-emerald-200': !isExpiringSoon(p.date_expiration) && p.date_expiration,
+                    'bg-slate-100 text-slate-400': !p.date_expiration
+                  }"
+                >
+                  <svg *ngIf="isExpiringSoon(p.date_expiration)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5 text-rose-600">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                  </svg>
+                  {{
+                    isExpiringSoon(p.date_expiration)
+                      ? 'Expiration proche'
+                      : p.date_expiration 
+                      ? (p.date_expiration | date:'dd/MM/yyyy')
+                      : 'Non spécifié'
+                  }}
+                </span>
+              </td>
+
+              <!-- ACTIONS -->
+              <td class="p-4 pr-6 text-center">
+                <div class="flex items-center justify-center gap-1">
+                  <button class="p-2 hover:bg-slate-200/60 rounded-xl transition-colors text-slate-600 hover:text-emerald-700" title="Modifier">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-4 h-4">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+                    </svg>
+                  </button>
+                  <button class="p-2 hover:bg-rose-50 rounded-xl transition-colors text-slate-400 hover:text-rose-600" title="Supprimer">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-4 h-4">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                    </svg>
+                  </button>
+                </div>
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+      </div>
+
+      <!-- TABLE FOOTER / PAGINATION -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 px-6 border-t border-slate-200/60 bg-white/40 text-xs font-semibold text-slate-500">
+        <div>
+          Affichage de <span class="text-slate-800 font-bold">{{ filteredProduits().length }}</span> produit{{ filteredProduits().length > 1 ? 's' : '' }}
+        </div>
+
+        <div class="flex items-center gap-2 mt-3 sm:mt-0">
+          <button
+            (click)="prevPage()"
+            class="p-2 bg-white/80 border border-slate-200/80 rounded-xl hover:bg-slate-100/80 transition disabled:opacity-40 disabled:cursor-not-allowed shadow-sm text-slate-700"
+            [disabled]="currentPage() === 1"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+
+          <span class="px-3 py-1.5 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-bold rounded-xl shadow-sm">
+            {{ currentPage() }} / {{ totalPages() }}
+          </span>
+
+          <button
+            (click)="nextPage()"
+            class="p-2 bg-white/80 border border-slate-200/80 rounded-xl hover:bg-slate-100/80 transition disabled:opacity-40 disabled:cursor-not-allowed shadow-sm text-slate-700"
+            [disabled]="currentPage() === totalPages()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
     </div>
 
   </div>
 
-</div>
+</main>
